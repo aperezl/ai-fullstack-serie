@@ -16,7 +16,7 @@ export function Sidebar() {
   return (
     <div className="w-64 bg-slate-700 text-white flex flex-col">
       <div className="p-6">
-        <h1 className="text-xl font-bold text-yellow-500">Mi Aplicación</h1>
+        <h1 className="text-xl font-bold text-yellow-500">AI Fullstack Serie</h1>
       </div>
 
       <nav className="flex-1 px-4 space-y-2">
