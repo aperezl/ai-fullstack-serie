@@ -1,0 +1,40 @@
+### Petición 1: Pregunta relevante para el contexto
+# Esta pregunta debería encontrar chunks similares en la base de datos.
+POST http://localhost:3001/api/rag
+Content-Type: application/json
+
+{
+  "messages": [
+    {
+      "id": "1",
+      "role": "user",
+      "parts": [
+        {
+          "type": "text",
+          "text": "¿Qué es el Vercel AI SDK y cuáles son sus características?"
+        }
+      ]
+    }
+  ]
+}
+
+
+### Petición 2: Pregunta irrelevante para el contexto
+# Esta pregunta no debería encontrar ninguna coincidencia relevante.
+POST http://localhost:3000/api/rag
+Content-Type: application/json
+
+{
+  "messages": [
+    {
+      "id": "1",
+      "role": "user",
+       "parts": [
+        {
+          "type": "text",
+          "text": "¿Como puedo instalar Angular?"
+        }
+      ]
+    }
+  ]
+}
