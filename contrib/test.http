@@ -1,6 +1,6 @@
 ### Petición 1: Pregunta relevante para el contexto
 # Esta pregunta debería encontrar chunks similares en la base de datos.
-POST http://localhost:3001/api/rag
+POST http://localhost:3000/api/rag
 Content-Type: application/json
 
 {
@@ -11,7 +11,7 @@ Content-Type: application/json
       "parts": [
         {
           "type": "text",
-          "text": "¿Qué es el Vercel AI SDK y cuáles son sus características?"
+          "text": "¿Como puedo instalar Vercel AI SDK?"
         }
       ]
     }
