@@ -11,9 +11,10 @@ interface ChatInputProps {
   handleInputChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
   handleSubmit: (e: FormEvent<HTMLFormElement>) => void
   isLoading: boolean
+  inputPlaceholder: string
 }
 
-export function ChatbotInput({ input, handleInputChange, handleSubmit, isLoading }: ChatInputProps) {
+export function ChatbotInput({ input, handleInputChange, handleSubmit, isLoading, inputPlaceholder }: ChatInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   // Auto-resize textarea
@@ -56,7 +57,7 @@ export function ChatbotInput({ input, handleInputChange, handleSubmit, isLoading
             value={input}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
-            placeholder="Escribe tu mensaje aquí..."
+            placeholder={inputPlaceholder}
             className="w-full bg-slate-600 text-white placeholder-slate-400 border border-slate-500 rounded-lg px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent min-h-[48px] max-h-[120px] no-scrollbar"
             disabled={isLoading}
             rows={1}

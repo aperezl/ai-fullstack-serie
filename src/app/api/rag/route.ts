@@ -61,3 +61,4 @@ export async function POST(req: Request) {
     return new Response("Un error inesperado ha ocurrido.", { status: 500 });
   }
 }
+
