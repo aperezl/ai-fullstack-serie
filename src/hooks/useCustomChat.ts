@@ -1,5 +1,5 @@
 import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport, UIMessage } from "ai";
+import { DefaultChatTransport, UIMessage, UIMessagePart, UIDataTypes, UITools } from "ai";
 import {
   useState,
   ChangeEvent,
@@ -15,12 +15,22 @@ interface UseCustomChatProps {
 interface UseCustomChatResult {
   input: string;
   setInput: React.Dispatch<React.SetStateAction<string>>;
-  messages: UIMessage[]; // Replace 'any' with the actual type of your messages
-  sendMessage: (message: UIMessage) => void; // Replace 'any' with the actual type of your message
+  messages: UIMessage[];
+  sendMessage: (message: UIMessage) => void;
   status: string;
   handleInputChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-  handleSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  handleSubmit: (e: FormEvent<HTMLFormElement>, files?: File[]) => void;
 }
+
+const fileToDataURL = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+    reader.readAsDataURL(file);
+  });
+};
+
 
 export const useCustomChat = ({ api }: UseCustomChatProps): UseCustomChatResult => {
   const [input, setInput] = useState("");
@@ -37,11 +47,32 @@ export const useCustomChat = ({ api }: UseCustomChatProps): UseCustomChatResult 
   );
 
   const handleSubmit = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
+    async (e: FormEvent<HTMLFormElement>, files: File[] = []) => {
       e.preventDefault();
       const trimmedInput = input.trim();
+
+      if (!trimmedInput && files.length === 0) return;
+
+      const messageParts: UIMessagePart<UIDataTypes, UITools>[] = [];
       if (trimmedInput) {
-        chat.sendMessage({ text: trimmedInput });
+        messageParts.push({ type: 'text', text: trimmedInput });
+      }
+
+      // Procesar y añadir las imágenes
+      for (const file of files) {
+        if (file.type.startsWith('image/')) {
+          const dataUrl = await fileToDataURL(file);
+          messageParts.push({
+            type: 'file',
+            mediaType: file.type,
+
+            url: dataUrl
+          });
+        }
+      }
+
+      if (messageParts.length > 0) {
+        chat.sendMessage({ role: 'user', parts: messageParts });
         setInput("");
       }
     },

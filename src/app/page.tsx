@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { BookOpen, MessageCircle, LucideIcon, BookUser } from "lucide-react"
+import { BookOpen, MessageCircle, LucideIcon, BookUser, BookImage } from "lucide-react"
 
 type Card = {
   title: string
@@ -14,14 +14,19 @@ const items: Card[] = [
     path: '/fundamental'
   },
   {
-    title: 'Construyendo Interfaces Conversacionales (Chatbots)',
+    title: 'Construyendo interfaces conversacionales (Chatbots)',
     Icon: MessageCircle,
     path: '/chatbot'
   },
   {
-    title: 'RAG - Dotando de Memoria a tu Agente.',
+    title: 'RAG - Dotando de memoria a tu agente.',
     Icon: BookUser,
     path: '/rag'
+  },
+  {
+    title: 'RAG Vision - Añade capacidad para leer imágenes.',
+    Icon: BookImage,
+    path: '/rag-images'
   }
 ]
 

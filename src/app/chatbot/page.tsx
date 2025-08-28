@@ -15,7 +15,7 @@ export default function ChatbotPage() {
     <div className="h-full w-full">
       <Chatbot
 
-        apiEndpoint="/api/rag"
+        apiEndpoint="/api/chat"
         assistantName="Asistente AI"
         assistantDescription="Siempre listo para ayudarte."
         assistantAvatar={<AssistantAvatar />}

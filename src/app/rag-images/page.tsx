@@ -22,7 +22,7 @@ const UserAvatar = () => (
 export default function AaronSwartzAssistantPage() {
   return (
     <Chatbot
-      apiEndpoint="/api/rag"
+      apiEndpoint="/api/rag-images"
       assistantName="Recordando a Aaron Swartz"
       assistantDescription="Un tributo a su lucha por un internet libre."
       assistantAvatar={<AssistantAvatar />}
@@ -30,7 +30,7 @@ export default function AaronSwartzAssistantPage() {
       initialMessageTitle="Hola, soy un asistente dedicado al legado de Aaron Swartz."
       initialMessageDescription="Puedes preguntarme sobre su vida, sus logros y su impacto en el mundo digital."
       inputPlaceholder="Pregunta sobre la vida de Aaron..."
-      fileSupport={false}
+      fileSupport={true}
     />
   );
 }

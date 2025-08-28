@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
-import { UIMessage } from "ai";
-
+import { UIMessage, UIMessagePart, UIDataTypes, UITools } from "ai";
+import Image from "next/image";
 interface ChatMessageProps {
-  message: UIMessage;
+  message: UIMessage<unknown, UIDataTypes, UITools>;
   assistantAvatar: React.ReactNode;
   userAvatar: React.ReactNode;
 }
@@ -25,9 +25,29 @@ export function ChatBotMessage({ message, assistantAvatar, userAvatar }: ChatMes
         )}
       >
         <div className="whitespace-pre-wrap leading-relaxed">
-          {message.parts.map((part, index) =>
-            part.type === 'text' ? <span key={index}>{part.text}</span> : null,
-          )}
+
+          {message.parts.map((part, index) => {
+            // return (<pre key={index}>{JSON.stringify(part, null, 2)}</pre>)
+
+            if (part.type === 'text') {
+              return <span key={index}>{part.text}</span>;
+            }
+            if (part.type === 'file' && part.mediaType.startsWith('image/')) {
+              const imagePart = part as UIMessagePart<UIDataTypes, UITools> & { type: 'file', url: string };
+              return (
+                <Image
+                  key={index}
+                  src={imagePart.url}
+                  alt="Imagen adjunta por el usuario"
+                  width={200}
+                  height={200}
+                  className="rounded-md object-cover"
+                />
+              );
+            }
+            return null;
+          })}
+
         </div>
       </div>
 
