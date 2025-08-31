@@ -60,7 +60,7 @@ Sigue estos pasos para ejecutar el proyecto en tu máquina local.
 *   [Node.js](https://nodejs.org/) (versión 18 o superior)
 *   [npm](https://www.npmjs.com/) o `pnpm`
 *   [Docker](https://www.docker.com/) (para levantar una instancia de PostgreSQL fácilmente)
-*   Una API Key de [OpenAI](https://platform.openai.com/) o [Google AI Studio](https://aistudio.google.com/).
+*   Una API Key de [Google AI Studio](https://aistudio.google.com/).
 
 ### **2. Instalación**
 
@@ -87,9 +87,6 @@ cp .env.example .env
 Tu fichero `.env` debería tener este aspecto:
 
 ```env
-# Clave de API de OpenAI
-OPENAI_API_KEY="sk-..."
-
 # Clave de API de Google (Gemini)
 GOOGLE_API_KEY="AIzaSy..."
 
@@ -100,16 +97,8 @@ POSTGRES_URL="postgresql://user:password@localhost:5432/database"
 
 > **Nota Importante:** Necesitas una instancia de PostgreSQL en ejecución con la extensión `pgvector` habilitada. Puedes usar Docker para levantar una fácilmente.
 
-### **4. Inicializar la Base de Datos**
 
-El proyecto incluye un script para crear las tablas necesarias y generar los embeddings de los documentos de prueba.
-
-```bash
-# Este comando inicializa la base de datos y la "alimenta" con conocimiento.
-npm run seed
-```
-
-### **5. Ejecutar la Aplicación**
+### **4. Ejecutar la Aplicación**
 
 ```bash
 # Inicia el servidor de desarrollo
@@ -139,7 +128,7 @@ Este proyecto está bajo la Licencia MIT. Consulta el fichero `LICENSE` para má
 ---
 
 <p align="center">
-  Creado con ❤️ por <strong>Antonio Pérez</strong>
+  Hecho con ❤️ desde Andalucía por <strong>Antonio Pérez</strong>
   <br/>
   <a href="https://aperezl.com">Blog</a> | <a href="https://github.com/aperezl">GitHub</a>
 </p>
