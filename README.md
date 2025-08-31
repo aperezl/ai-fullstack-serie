@@ -43,7 +43,7 @@ Para entender el contexto, la arquitectura y las decisiones detrás del código,
 
 Este proyecto demuestra el uso de un stack de vanguardia para la IA:
 
-*   **Framework:** [Next.js 14](https://nextjs.org/) (App Router)
+*   **Framework:** [Next.js 15](https://nextjs.org/) (App Router)
 *   **Lenguaje:** [TypeScript](https://www.typescriptlang.org/)
 *   **Arquitectura:** React Server Components (RSC) y Server Actions
 *   **Librería de IA:** [Vercel AI SDK](https://sdk.vercel.ai/) para streaming y hooks de UI.
