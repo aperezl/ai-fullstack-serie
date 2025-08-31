@@ -79,12 +79,12 @@ npm install
 
 ```bash
 # 1. Copia el fichero de ejemplo para las variables de entorno
-cp .env.example .env
+cp example.env .env.local
 
-# 2. Abre el fichero .env y añade tus claves de API y la URL de tu base de datos.
+# 2. Abre el fichero .env.local y añade tus claves de API y la URL de tu base de datos.
 ```
 
-Tu fichero `.env` debería tener este aspecto:
+Tu fichero `.env.local` debería tener este aspecto:
 
 ```env
 # Clave de API de Google (Gemini)
