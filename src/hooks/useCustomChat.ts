@@ -77,7 +77,7 @@ export const useCustomChat = ({ api, id }: UseCustomChatProps): UseCustomChatRes
         setInput("");
       }
     },
-    [chat.sendMessage, input, setInput]
+    [chat, chat.sendMessage, input, setInput]
   );
 
   return {
