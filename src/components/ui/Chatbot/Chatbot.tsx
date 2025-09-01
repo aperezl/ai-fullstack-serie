@@ -16,7 +16,9 @@ interface ChatbotProps {
   initialMessageDescription: string;
   inputPlaceholder: string;
   fileSupport?: boolean;
+  accept?: string;
 }
+
 
 export function Chatbot({
   apiEndpoint,
@@ -28,6 +30,7 @@ export function Chatbot({
   initialMessageDescription,
   inputPlaceholder,
   fileSupport = false,
+  accept = '*'
 }: ChatbotProps) {
   const {
     input,
@@ -60,6 +63,7 @@ export function Chatbot({
           isLoading={status !== 'ready'}
           inputPlaceholder={inputPlaceholder}
           fileSupport={fileSupport}
+          accept={accept}
         />
       </div>
     </div>

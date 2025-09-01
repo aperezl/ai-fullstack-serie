@@ -7,9 +7,12 @@ import {
   useCallback,
   useMemo,
 } from "react";
+import { v4 as uuidv4 } from 'uuid';
 
 interface UseCustomChatProps {
   api: string;
+  id?: string;
+
 }
 
 interface UseCustomChatResult {
@@ -31,18 +34,27 @@ const fileToDataURL = (file: File): Promise<string> => {
   });
 };
 
+const fileToUint8Array = (file: File): Promise<Uint8Array> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(new Uint8Array(reader.result as ArrayBuffer));
+    reader.onerror = (error) => reject(error);
+    reader.readAsArrayBuffer(file);
+  });
+};
 
-export const useCustomChat = ({ api }: UseCustomChatProps): UseCustomChatResult => {
+
+export const useCustomChat = ({ api, id }: UseCustomChatProps): UseCustomChatResult => {
   const [input, setInput] = useState("");
+  const [sessionId] = useState(id || uuidv4());
 
   const chat = useChat({
+    id: sessionId,
     transport: useMemo(() => new DefaultChatTransport({ api }), [api]),
   });
 
   const handleInputChange = useCallback(
-    (e: ChangeEvent<HTMLTextAreaElement>) => {
-      setInput(e.target.value);
-    },
+    (e: ChangeEvent<HTMLTextAreaElement>) => setInput(e.target.value),
     [setInput]
   );
 
@@ -60,15 +72,14 @@ export const useCustomChat = ({ api }: UseCustomChatProps): UseCustomChatResult 
 
       // Procesar y añadir las imágenes
       for (const file of files) {
-        if (file.type.startsWith('image/')) {
-          const dataUrl = await fileToDataURL(file);
-          messageParts.push({
-            type: 'file',
-            mediaType: file.type,
-
-            url: dataUrl
-          });
-        }
+        console.log({ file })
+        const dataUrl = await fileToDataURL(file);
+        messageParts.push({
+          type: 'file',
+          mediaType: file.type,
+          filename: file.name,
+          url: dataUrl
+        });
       }
 
       if (messageParts.length > 0) {

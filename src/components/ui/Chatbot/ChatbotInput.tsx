@@ -4,7 +4,7 @@ import type React from "react"
 
 import { type FormEvent, useRef, useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Paperclip, Send, X } from "lucide-react"
+import { Paperclip, Send, X, File } from "lucide-react"
 import Image from "next/image"
 
 interface ChatInputProps {
@@ -14,9 +14,41 @@ interface ChatInputProps {
   isLoading: boolean
   inputPlaceholder: string
   fileSupport?: boolean
+  accept?: string
 }
 
-export function ChatbotInput({ input, handleInputChange, handleSubmit, isLoading, inputPlaceholder, fileSupport }: ChatInputProps) {
+
+async function convertFilesToDataURLs(
+  files: FileList,
+): Promise<
+  { type: 'file'; filename: string; mediaType: string; url: string }[]
+> {
+  return Promise.all(
+    Array.from(files).map(
+      file =>
+        new Promise<{
+          type: 'file';
+          filename: string;
+          mediaType: string;
+          url: string;
+        }>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            resolve({
+              type: 'file',
+              filename: file.name,
+              mediaType: file.type,
+              url: reader.result as string, // Data URL
+            });
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        }),
+    ),
+  );
+}
+
+export function ChatbotInput({ input, handleInputChange, handleSubmit, isLoading, inputPlaceholder, fileSupport, accept }: ChatInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [files, setFiles] = useState<File[]>([])
@@ -38,7 +70,7 @@ export function ChatbotInput({ input, handleInputChange, handleSubmit, isLoading
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (input.trim() && !isLoading) {
+    if (!isLoading) {
       handleSubmit(e, files)
       setFiles([])
       if (fileInputRef.current) {
@@ -82,7 +114,7 @@ export function ChatbotInput({ input, handleInputChange, handleSubmit, isLoading
               type="file"
               ref={fileInputRef}
               onChange={handleFileChange}
-              accept="image/*"
+              accept={fileSupport ? (accept || '*') : undefined}
               multiple={false} // Permitimos solo una imagen por ahora
               className="hidden"
             />
@@ -91,7 +123,15 @@ export function ChatbotInput({ input, handleInputChange, handleSubmit, isLoading
         <div className="flex-1 flex flex-col gap-2">
           {files.length > 0 && (
             <div className="bg-slate-600 p-2 rounded-md flex items-center gap-2">
-              <Image className="w-10 h-10 object-cover rounded" src={URL.createObjectURL(files[0])} alt={files[0].name} width={40} height={40} />
+              {files[0].type.startsWith('image/') ?
+                (
+                  <Image className="w-10 h-10 object-cover rounded" src={URL.createObjectURL(files[0])} alt={files[0].name} width={40} height={40} />
+                ) : (
+                  <>
+                    <File className="w-10 h-10 text-slate-300" />
+                    {files[0].name}
+                  </>
+                )}
               <span className="text-sm text-white truncate">{files[0].name}</span>
               <Button
                 type="button"
@@ -117,7 +157,7 @@ export function ChatbotInput({ input, handleInputChange, handleSubmit, isLoading
         </div>
         <Button
           type="submit"
-          disabled={!input.trim() || isLoading}
+          disabled={(!input.trim() && files.length === 0) || isLoading}
           className="bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-semibold px-4 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Send className="w-4 h-4" />
