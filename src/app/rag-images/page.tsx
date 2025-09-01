@@ -31,6 +31,7 @@ export default function AaronSwartzAssistantPage() {
       initialMessageDescription="Puedes preguntarme sobre su vida, sus logros y su impacto en el mundo digital."
       inputPlaceholder="Pregunta sobre la vida de Aaron..."
       fileSupport={true}
+      accept="image/*"
     />
   );
 }

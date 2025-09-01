@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { UIMessage, UIMessagePart, UIDataTypes, UITools } from "ai";
+import { File } from "lucide-react";
 import Image from "next/image";
 import { Streamdown } from 'streamdown';
 
@@ -38,18 +39,26 @@ export function ChatBotMessage({ message, assistantAvatar, userAvatar }: ChatMes
                 {part.text}
               </Streamdown>;
             }
-            if (part.type === 'file' && part.mediaType.startsWith('image/')) {
-              const imagePart = part as UIMessagePart<UIDataTypes, UITools> & { type: 'file', url: string };
+            if (part.type === 'file') {
+              if (part.mediaType.startsWith('image/')) {
+                const imagePart = part as UIMessagePart<UIDataTypes, UITools> & { type: 'file', url: string };
+                return (
+                  <Image
+                    key={index}
+                    src={imagePart.url}
+                    alt="Imagen adjunta por el usuario"
+                    width={200}
+                    height={200}
+                    className="rounded-md object-cover"
+                  />
+                );
+              }
               return (
-                <Image
-                  key={index}
-                  src={imagePart.url}
-                  alt="Imagen adjunta por el usuario"
-                  width={200}
-                  height={200}
-                  className="rounded-md object-cover"
-                />
-              );
+                <div key={index}>
+                  <File className="inline w-4 h-4 mr-2" />
+                  <span>{part.filename}</span>
+                </div>
+              )
             }
             return null;
           })}

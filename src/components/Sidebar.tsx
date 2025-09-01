@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, BookOpen, MessageCircle, BookUser, BookImage } from "lucide-react"
+import { Home, BookOpen, MessageCircle, BookUser, BookImage, FileText } from "lucide-react"
 
 const navigation = [
   { name: "Home", href: "/", icon: Home },
@@ -10,6 +10,7 @@ const navigation = [
   { name: "Chatbot", href: "/chatbot", icon: MessageCircle },
   { name: 'RAG', href: '/rag', icon: BookUser },
   { name: 'RAG Vision', href: '/rag-images', icon: BookImage },
+  { name: 'RAG PDF', href: '/pdf-chat', icon: FileText },
 ]
 
 export function Sidebar() {
