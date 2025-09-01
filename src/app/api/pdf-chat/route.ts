@@ -1,4 +1,3 @@
-// app/api/pdf-chat/route.ts
 import { google } from '@ai-sdk/google';
 import { streamText, convertToModelMessages, UIMessage, UIMessagePart, UIDataTypes, UITools, FileUIPart } from 'ai';
 import { Redis } from '@upstash/redis';
@@ -19,10 +18,8 @@ const redis = new Redis({
 
 
 const extractPdfAsBlob = async (parts: UIMessagePart<UIDataTypes, UITools>[]): Promise<Blob | undefined> => {
-  console.log({ parts })
   const filePart = parts.find(part => part.type === 'file' && part.mediaType === 'application/pdf');
   if (filePart) {
-    console.log({ filePart })
     const x = await fetch((filePart as FileUIPart).url);
     const y = new Blob([await x.blob()], { type: 'application/pdf' });
     return y
@@ -76,7 +73,6 @@ async function findRelevantCachedChunks(query: string, sessionId: string): Promi
   if (!serializedData) return [];
 
   const serializedVectorStore: SerializedVectorStore = JSON.parse(serializedData as string);
-  console.log({ serializedData: serializedVectorStore.docs })
   const { docs } = serializedVectorStore;
 
   const embeddings = new GoogleGenerativeAIEmbeddings({
@@ -146,7 +142,6 @@ export async function POST(req: Request) {
     `;
 
     console.log('[CAG] Llamando al modelo con el prompt y contexto.');
-    console.log({ systemPrompt })
     const result = await streamText({
       model: google('gemini-2.0-flash-001'),
       system: systemPrompt,

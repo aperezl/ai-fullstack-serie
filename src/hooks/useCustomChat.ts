@@ -62,7 +62,6 @@ export const useCustomChat = ({ api, id }: UseCustomChatProps): UseCustomChatRes
 
       // Procesar y añadir las imágenes
       for (const file of files) {
-        console.log({ file })
         const dataUrl = await fileToDataURL(file);
         messageParts.push({
           type: 'file',
