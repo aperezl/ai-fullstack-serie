@@ -1,6 +1,6 @@
 // app/api/pdf-chat/route.ts
 import { google } from '@ai-sdk/google';
-import { streamText, convertToModelMessages, UIMessage, UIMessagePart } from 'ai';
+import { streamText, convertToModelMessages, UIMessage, UIMessagePart, UIDataTypes, UITools, FileUIPart } from 'ai';
 import { Redis } from '@upstash/redis';
 import { z } from 'zod';
 
@@ -18,12 +18,12 @@ const redis = new Redis({
 });
 
 
-const extractPdfAsBlob = async (parts: UIMessagePart[]): Blob | undefined => {
+const extractPdfAsBlob = async (parts: UIMessagePart<UIDataTypes, UITools>[]): Promise<Blob | undefined> => {
   console.log({ parts })
   const filePart = parts.find(part => part.type === 'file' && part.mediaType === 'application/pdf');
   if (filePart) {
     console.log({ filePart })
-    const x = await fetch(filePart.url);
+    const x = await fetch((filePart as FileUIPart).url);
     const y = new Blob([await x.blob()], { type: 'application/pdf' });
     return y
   }
@@ -75,8 +75,9 @@ async function findRelevantCachedChunks(query: string, sessionId: string): Promi
   const serializedData = await redis.get<string>(`pdf_cache:${sessionId}`);
   if (!serializedData) return [];
 
-  console.log({ serializedData: serializedData.docs })
-  const { docs }: SerializedVectorStore = serializedData
+  const serializedVectorStore: SerializedVectorStore = JSON.parse(serializedData as string);
+  console.log({ serializedData: serializedVectorStore.docs })
+  const { docs } = serializedVectorStore;
 
   const embeddings = new GoogleGenerativeAIEmbeddings({
     apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
@@ -111,7 +112,7 @@ export async function POST(req: Request) {
       return new Response("Mensaje de usuario inválido", { status: 400 });
     }
 
-    const userText = lastUserMessage.parts.filter(part => part.type === 'text').map(part => (part as any).text).join(' ');
+    const userText = lastUserMessage.parts.filter(part => part.type === 'text').map(part => part.text).join(' ');
     const pdfBlob = await extractPdfAsBlob(lastUserMessage.parts);
     console.log('[CAG] Texto del usuario:', userText);
     console.log('[CAG] PDF adjunto:', pdfBlob ? 'Sí' : 'No');

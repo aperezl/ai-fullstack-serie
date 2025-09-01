@@ -54,7 +54,7 @@ export function ChatBotMessage({ message, assistantAvatar, userAvatar }: ChatMes
                 );
               }
               return (
-                <div>
+                <div key={index}>
                   <File className="inline w-4 h-4 mr-2" />
                   <span>{part.filename}</span>
                 </div>

@@ -34,16 +34,6 @@ const fileToDataURL = (file: File): Promise<string> => {
   });
 };
 
-const fileToUint8Array = (file: File): Promise<Uint8Array> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(new Uint8Array(reader.result as ArrayBuffer));
-    reader.onerror = (error) => reject(error);
-    reader.readAsArrayBuffer(file);
-  });
-};
-
-
 export const useCustomChat = ({ api, id }: UseCustomChatProps): UseCustomChatResult => {
   const [input, setInput] = useState("");
   const [sessionId] = useState(id || uuidv4());

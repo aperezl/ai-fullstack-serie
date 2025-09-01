@@ -17,37 +17,6 @@ interface ChatInputProps {
   accept?: string
 }
 
-
-async function convertFilesToDataURLs(
-  files: FileList,
-): Promise<
-  { type: 'file'; filename: string; mediaType: string; url: string }[]
-> {
-  return Promise.all(
-    Array.from(files).map(
-      file =>
-        new Promise<{
-          type: 'file';
-          filename: string;
-          mediaType: string;
-          url: string;
-        }>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => {
-            resolve({
-              type: 'file',
-              filename: file.name,
-              mediaType: file.type,
-              url: reader.result as string, // Data URL
-            });
-          };
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        }),
-    ),
-  );
-}
-
 export function ChatbotInput({ input, handleInputChange, handleSubmit, isLoading, inputPlaceholder, fileSupport, accept }: ChatInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)

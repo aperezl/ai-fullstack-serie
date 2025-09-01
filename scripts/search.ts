@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { sql } from 'drizzle-orm';
 import postgres from 'postgres';
-import { chunks  } from '../src/lib/db/schema'; 
+import { chunks } from '../src/lib/db/schema';
 import { google } from '@ai-sdk/google';
 import { embed } from 'ai';
 import dotenv from 'dotenv';
@@ -58,7 +58,7 @@ async function main() {
   } else {
     console.log('\n--- Resultados más relevantes ---');
     searchResults.forEach((result, index) => {
-      console.log(`\n[ Resultado ${index + 1} | Distancia: ${result.similarity.toFixed(4)} ]`);
+      console.log(`\n[ Resultado ${index + 1} | Distancia: ${(result.similarity as number).toFixed(4)} ]`);
       console.log(result.content);
       console.log('---------------------------------');
     });
