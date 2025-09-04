@@ -71,9 +71,7 @@ async function processAndCachePdf(pdfBlob: Blob, sessionId: string) {
 async function findRelevantCachedChunks(query: string, sessionId: string): Promise<string[]> {
   const serializedData = await redis.get<string>(`pdf_cache:${sessionId}`);
   if (!serializedData) return [];
-
-  const serializedVectorStore: SerializedVectorStore = JSON.parse(serializedData as string);
-  const { docs } = serializedVectorStore;
+  const { docs } = serializedData as unknown as SerializedVectorStore;
 
   const embeddings = new GoogleGenerativeAIEmbeddings({
     apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,

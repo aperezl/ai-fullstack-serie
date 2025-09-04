@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { UIMessage, UIMessagePart, UIDataTypes, UITools } from "ai";
-import { File } from "lucide-react";
+import { File, WrenchIcon } from "lucide-react";
 import Image from "next/image";
 import { Streamdown } from 'streamdown';
 
@@ -30,14 +30,21 @@ export function ChatBotMessage({ message, assistantAvatar, userAvatar }: ChatMes
         <div className="whitespace-pre-wrap leading-relaxed">
 
           {message.parts.map((part, index) => {
+            if (part.type.startsWith('tool')) {
+              return (
+                <div className="mb-2 italic text-sm text-slate-400" key={index}>
+                  <WrenchIcon className="inline w-4 h-4 mr-2" />
+                  Ejecutando herramienta: {part.type.replace('tool-', '')}
+                </div>
+              )
+            }
 
             if (part.type === 'text') {
-              return <Streamdown
+              return <div
                 key={index}
-                shikiTheme={['github-dark', 'github-dark']}
               >
                 {part.text}
-              </Streamdown>;
+              </div>;
             }
             if (part.type === 'file') {
               if (part.mediaType.startsWith('image/')) {
@@ -63,7 +70,7 @@ export function ChatBotMessage({ message, assistantAvatar, userAvatar }: ChatMes
             return null;
           })}
 
-        </div>
+        </div >
       </div>
 
       {isUser && (

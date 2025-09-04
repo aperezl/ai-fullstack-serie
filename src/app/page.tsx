@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { BookOpen, MessageCircle, LucideIcon, BookUser, BookImage, FileText } from "lucide-react"
+import { BookOpen, MessageCircle, LucideIcon, BookUser, BookImage, FileText, WrenchIcon } from "lucide-react"
 
 type Card = {
   title: string
@@ -32,6 +32,11 @@ const items: Card[] = [
     title: 'RAG PDF - Hablando con tus PDFs.',
     Icon: FileText,
     path: '/pdf-chat'
+  },
+  {
+    title: 'Function Calling y Herramientas (Tools)',
+    Icon: WrenchIcon,
+    path: '/tools'
   }
 ]
 
