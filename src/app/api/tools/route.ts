@@ -1,6 +1,6 @@
 import { google } from '@ai-sdk/google';
 import { streamText, convertToModelMessages, UIMessage, stepCountIs } from 'ai';
-import { aaronTools } from '@/lib/ai/tools'; // Importamos nuestras nuevas herramientas
+import { findUserTickets, createSupportTicket, updataeSupportTicket, assignTicketToUser } from '@/lib/ai/tools'; // Importamos nuestras nuevas herramientas
 
 export const maxDuration = 30;
 
@@ -13,16 +13,15 @@ export async function POST(req: Request) {
       Tu nombre es "ChipiBot". Eres amable, extremadamente servicial y eficiente.
       Utiliza las herramientas disponibles para responder a las preguntas del usuario y realizar tareas.
       Cuando busques información de un usuario, siempre dirígete a él por su nombre si lo encuentras.
-      El correo del usuario actual es "antonio@demandprogress.org". Solo puedes operar sobre este usuario a menos que se te proporcione otro correo explícitamente.
+      El correo del usuario actual es "antonio@unuko.com". Solo puedes operar sobre este usuario a menos que se te proporcione otro correo explícitamente.
     `;
 
     const result = await streamText({
       model: google('gemini-2.5-flash'),
       system: systemPrompt,
       messages: convertToModelMessages(messages),
-      tools: aaronTools,
+      tools: { findUserTickets, createSupportTicket, updataeSupportTicket, assignTicketToUser },
       stopWhen: stepCountIs(5),
-
     });
 
     return result.toUIMessageStreamResponse();

@@ -6,23 +6,25 @@ export interface User {
   tickets: string[];
 }
 
+export type TicketStatus = 'open' | 'closed' | 'in-progress'
+
 export interface Ticket {
   id: string;
   subject: string;
-  status: 'open' | 'closed' | 'in-progress';
+  status: TicketStatus;
   userEmail: string;
 }
 
 // Nuestra "base de datos" en memoria
 const users: User[] = [
-  { id: 'usr_1', name: 'Antonio Perez', email: 'antonio@demandprogress.org', tickets: ['tkt_1', 'tkt_3'] },
-  { id: 'usr_2', name: 'Ada Lovelace', email: 'ada@analytic.engine', tickets: ['tkt_2'] },
+  { id: 'usr_1', name: 'Antonio Perez', email: 'antonio@unuko.com', tickets: ['tkt_1', 'tkt_3'] },
+  { id: 'usr_2', name: 'Ada Lovelace', email: 'ada@unuko.com', tickets: ['tkt_2'] },
 ];
 
 const tickets: Ticket[] = [
-  { id: 'tkt_1', subject: 'Problema con la descarga de JSTOR', status: 'closed', userEmail: 'antonio@demandprogress.org' },
-  { id: 'tkt_2', subject: 'Consulta sobre el Motor Analítico', status: 'open', userEmail: 'ada@analytic.engine' },
-  { id: 'tkt_3', subject: 'Acceso a documentos de PACER', status: 'in-progress', userEmail: 'antonio@demandprogress.org' },
+  { id: 'tkt_1', subject: 'Empezar a escribir un blog', status: 'closed', userEmail: 'antonio@unuko.com' },
+  { id: 'tkt_2', subject: 'Consulta sobre el Motor Analítico', status: 'open', userEmail: 'ada@unuko.com' },
+  { id: 'tkt_3', subject: 'Terminar la serie AI FullStack', status: 'in-progress', userEmail: 'antonio@unuko.com' },
 ];
 
 // Funciones que simulan el acceso a la base de datos
@@ -49,4 +51,24 @@ export const db = {
     user?.tickets.push(newTicket.id);
     return newTicket;
   },
+  updateTicketStatus: async (ticketId: string, status: TicketStatus) => {
+    console.log(`[DB] Actualizando estado del ticket ${ticketId} a ${status}`);
+    const ticket = tickets.find(t => t.id === ticketId);
+    if (ticket) {
+      ticket.status = status;
+      return ticket;
+    }
+  },
+  assignTicketToUser: async (ticketId: string, userEmail: string) => {
+    console.log(`[DB] Asignando ticket ${ticketId} al usuario ${userEmail}`);
+    const ticket = tickets.find(t => t.id === ticketId);
+    const user = await db.findUserByEmail(userEmail);
+    if (ticket && user) {
+      ticket.userEmail = userEmail;
+      if (!user.tickets.includes(ticketId)) {
+        user.tickets.push(ticketId);
+      }
+      return ticket;
+    }
+  }
 };
