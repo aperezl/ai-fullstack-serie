@@ -4,10 +4,11 @@ import { Redis } from '@upstash/redis';
 import { z } from 'zod';
 
 import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
-import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
+import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
 import { GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { Document } from 'langchain/document';
+
 
 export const maxDuration = 60;
 
