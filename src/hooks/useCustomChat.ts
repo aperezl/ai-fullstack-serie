@@ -40,7 +40,6 @@ export const useCustomChat = ({ api, id }: UseCustomChatProps): UseCustomChatRes
 
   const chat = useChat({
     id: sessionId,
-    body: { sessionId },
     transport: useMemo(() => new DefaultChatTransport({ api }), [api]),
   });
 

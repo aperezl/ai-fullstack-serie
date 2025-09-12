@@ -17,7 +17,7 @@ const UserAvatar = () => (
 export default function PdfChatPage() {
   return (
     <Chatbot
-      apiEndpoint="/api/langchain-chat"
+      apiEndpoint="/api/tools-langchain"
       assistantName="Gestión de Tickets"
       assistantDescription="Gestiona tus tickets desde este asistente."
       assistantAvatar={<AssistantAvatar />}
