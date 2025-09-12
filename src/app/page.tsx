@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { BookOpen, MessageCircle, LucideIcon, BookUser, BookImage, FileText, WrenchIcon } from "lucide-react"
+import { BookOpen, MessageCircle, LucideIcon, BookUser, BookImage, FileText, WrenchIcon, Link as LinkIcon } from "lucide-react"
 
 type Card = {
   title: string
@@ -37,7 +37,13 @@ const items: Card[] = [
     title: 'Function Calling y Herramientas (Tools)',
     Icon: WrenchIcon,
     path: '/tools'
+  },
+  {
+    title: 'LangChain.js',
+    Icon: LinkIcon,
+    path: '/tools-langchain'
   }
+
 ]
 
 const ItemComponent = ({ title, Icon, path }: Card) => (
