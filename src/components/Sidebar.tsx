@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, BookOpen, MessageCircle, BookUser, BookImage, FileText, WrenchIcon, Link as LinkIcon } from "lucide-react"
+import { Home, BookOpen, MessageCircle, BookUser, BookImage, FileText, WrenchIcon, Link as LinkIcon, Workflow } from "lucide-react"
 
 const navigation = [
   { name: "Home", href: "/", icon: Home },
@@ -12,7 +12,9 @@ const navigation = [
   { name: 'RAG Vision', href: '/rag-images', icon: BookImage },
   { name: 'RAG PDF', href: '/pdf-chat', icon: FileText },
   { name: 'Tools', href: '/tools', icon: WrenchIcon },
-  { name: 'Tools Langhain', href: '/tools-langchain', icon: LinkIcon },
+  { name: 'Langhain', href: '/tools-langchain', icon: LinkIcon },
+  { name: 'langgraph', href: '/tools-langgraph', icon: Workflow },
+
 
 ]
 

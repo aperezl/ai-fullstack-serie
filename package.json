@@ -20,6 +20,7 @@
     "@langchain/community": "^0.3.53",
     "@langchain/core": "^0.3.72",
     "@langchain/google-genai": "^0.2.16",
+    "@langchain/langgraph": "^0.4.9",
     "@langchain/openai": "^0.6.11",
     "@langchain/textsplitters": "^0.1.0",
     "@neondatabase/serverless": "^1.0.1",
