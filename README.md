@@ -1,3 +1,5 @@
+
+
 # Agente de IA Full-Stack: El Código Detrás de la Serie de Artículos
 
 ![Banner del Proyecto](https://aperezl.com/images/rag-dotando-de-memoria-a-tu-agente-parte-1/image.png)
@@ -92,7 +94,7 @@ GOOGLE_API_KEY="AIzaSy..."
 
 # URL de conexión a tu base de datos PostgreSQL con pgvector
 # Si usas Docker, podría ser algo así:
-POSTGRES_URL="postgresql://user:password@localhost:5432/database"
+DATABASE_URL="postgresql://user:password@localhost:5432/database"
 ```
 
 > **Nota Importante:** Necesitas una instancia de PostgreSQL en ejecución con la extensión `pgvector` habilitada. Puedes usar Docker para levantar una fácilmente.
